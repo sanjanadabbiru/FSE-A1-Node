@@ -12,10 +12,13 @@ mongoose.connect('mongodb://localhost:27017/tuiter');
 
 
 var cors = require('cors')
+const bodyParser = require('body-parser');
 const app = express();
 app.use(cors());
 app.use(express.json());
-
+app.use(bodyParser.urlencoded({
+extended: false
+}));
 app.get('/', (req: Request, res: Response) =>
     res.send('Welcome to Foundation of Software Engineering!'));
 
