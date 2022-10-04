@@ -8,9 +8,7 @@
 import express, {Request, Response} from 'express';
 
 const mongoose = require('mongoose');
-mongoose.connect('mongodb://localhost:27017/tuiter');
-
-
+mongoose.connect('mongodb+srv://SanjanaDabbiru:Password123@cluster0.1vqotnx.mongodb.net/tuiter');
 var cors = require('cors')
 const bodyParser = require('body-parser');
 const app = express();
@@ -33,5 +31,5 @@ const tuitController = new TuitController(app,tuitDao);
  * Start a server listening at port 4000 locally
  * but use environment variable PORT on Heroku if available.
  */
-const PORT = 4001;
+const PORT = 4003;
 app.listen(process.env.PORT || PORT);
