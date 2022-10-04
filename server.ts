@@ -3,12 +3,10 @@
  */
  import UserController from './controllers/UserController';
  import TuitController from './controllers/TuitController';
- import * as dotenv from 'dotenv';
  import UserDao from './daos/UserDao';
  import TuitDao from './daos/TuitDao';
 import express, {Request, Response} from 'express';
 const mongoose = require('mongoose');
-dotenv.config();
 mongoose.connect('mongodb+srv://SanjanaDabbiru:'+process.env.DB_PASSWORD+'@cluster0.1vqotnx.mongodb.net/tuiter');
 var cors = require('cors')
 const bodyParser = require('body-parser');
