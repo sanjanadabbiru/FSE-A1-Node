@@ -6,7 +6,7 @@
  import UserDao from './daos/UserDao';
  import TuitDao from './daos/TuitDao';
 import express, {Request, Response} from 'express';
-require('dotenv').config()
+import 'dotenv/config'
 const mongoose = require('mongoose');
 mongoose.connect('mongodb+srv://SanjanaDabbiru:'+process.env.DB_PASSWORD+'@cluster0.1vqotnx.mongodb.net/tuiter');
 var cors = require('cors')
