@@ -1,4 +1,6 @@
-
+/**
+ * @file Declares API for Users related data access object methods
+ */
 import User from "../models/User";
 
 export default interface UserDaoI {

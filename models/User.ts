@@ -1,7 +1,10 @@
 import AccountType from "./AccountType";
 import MaritalStatus from "./MaritalStatus";
 import Location from "./Location";
-
+/**
+ * @class User Implements RESTful Web service API for user resource.
+ * RESTful Web service API
+ */
 export default class User {
    private username: string = '';
    private password: string = '';
