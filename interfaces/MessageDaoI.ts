@@ -1,7 +1,7 @@
 /**
  * @file Declares API for Messages related data access object methods
  */
-import Message from "../models/messages/Message";
+import Message from "../models/Message";
 
 export default interface MessageDaoI {
     userMessagesUser(uid1: string, uid2: string, message: Message): Promise<Message>;

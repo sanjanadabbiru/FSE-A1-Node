@@ -2,7 +2,7 @@
  * @file Declares Message data type representing a direct message between
  * two users, as in user messages another user
  */
-import User from "../users/User";
+import User from "./User";
 
 /**
  * @typedef Message Represents messages between users,

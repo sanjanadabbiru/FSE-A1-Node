@@ -2,7 +2,7 @@
  * @file Declares Follow data type representing relationship between
  * users, as in user follows another user
  */
-import User from "../users/User";
+import User from "./User";
 
 /**
  * @typedef Follow Represents follows relationship between users,
