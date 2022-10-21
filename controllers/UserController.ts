@@ -32,6 +32,8 @@ export default class UserController implements UserControllerI {
                    UserController.userController.findUserById);
                app.post("/api/users",
                    UserController.userController.createUser);
+               app.put("/api/users/:uid",
+                   UserController.userController.updateUser);
                app.delete("/api/users/:uid",
                    UserController.userController.deleteUser);
 
@@ -89,6 +91,15 @@ export default class UserController implements UserControllerI {
            UserController.userDao.deleteUser(req.params.uid)
                .then((status) => res.send(status));
 
-
+    /**
+     * Modifies an existing user instance
+     * @param {Request} req Represents request from client, including path
+     * parameter uid identifying the primary key of the user to be modified
+     * @param {Response} res Represents response to client, including status
+     * on whether updating a user was successful or not
+     */
+    updateUser = (req: Request, res: Response) =>
+        UserController.userDao.updateUser(req.params.uid, req.body)
+            .then((status) => res.send(status));
 
 }
