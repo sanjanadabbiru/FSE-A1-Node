@@ -12,9 +12,8 @@ import MessageController from "./controllers/MessageController";
 import express, {Request, Response} from 'express';
 const mongoose = require('mongoose');
 
-
-// mongoose.connect('mongodb+srv://SanjanaDabbiru:'+process.env.DB_PASSWORD+'@cluster0.1vqotnx.mongodb.net/tuiter');
-mongoose.connect(`mongodb+srv://SanjanaDabbiru:Password123@cluster0.1vqotnx.mongodb.net/tuiter`);
+mongoose.connect('mongodb+srv://SanjanaDabbiru:'+process.env.DB_PASSWORD+'@cluster0.1vqotnx.mongodb.net/tuiter');
+// mongoose.connect(`mongodb+srv://SanjanaDabbiru:Password123@cluster0.1vqotnx.mongodb.net/tuiter`);
 
 var cors = require('cors')
 const bodyParser = require('body-parser');
