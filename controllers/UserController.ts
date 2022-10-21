@@ -2,34 +2,93 @@
 import {Request, Response, Express} from "express";
 import UserDao from "../daos/UserDao";
 import UserControllerI from "../interfaces/UserController";
+import User from "../models/User";
 
 export default class UserController implements UserControllerI {
-    app: Express;
-    userDao: UserDao;
+       private static userDao: UserDao = UserDao.getInstance();
+       private static userController: UserController | null = null;
 
-    constructor(app: Express, userDao: UserDao) {
-        this.app = app;
-        this.userDao = userDao;
-        this.app.get('/api/users', this.findAllUsers);
-        this.app.get('/api/users/:uid', this.findUserById);
-        this.app.post('/api/users', this.createUser);
-        this.app.delete('/api/users/:uid', this.deleteUser);
-        this.app.put('/api/users/:uid', this.updateUser);
-    }
+       /**
+        * Creates singleton controller instance
+        * @param {Express} app Express instance to declare the RESTful Web service
+        * API
+        * @returns UserController
+        */
+       public static getInstance = (app: Express): UserController => {
+           if (UserController.userController === null) {
+               UserController.userController = new UserController();
 
-    findAllUsers = (req: Request, res: Response) =>
-        this.userDao.findAllUsers()
-            .then(users => res.json(users));
-    findUserById = (req: Request, res: Response) =>
-        this.userDao.findUserById(req.params.uid)
-            .then(user => res.json(user));
-    createUser = (req: Request, res: Response) =>
-        this.userDao.createUser(req.body)
-            .then(user => res.json(user));
-    deleteUser = (req: Request, res: Response) =>
-        this.userDao.deleteUser(req.params.uid)
-            .then(status => res.json(status));
-    updateUser = (req: Request, res: Response) =>
-        this.userDao.updateUser(req.params.uid, req.body)
-            .then(status => res.json(status));
+               // for testing without postman. Not RESTful
+               app.get("/api/users/create",
+                   UserController.userController.createUser);
+               app.get("/api/users/:uid/delete",
+                   UserController.userController.deleteUser);
+
+
+               // RESTful User Web service API
+               app.get("/api/users",
+                   UserController.userController.findAllUsers);
+               app.get("/api/users/:uid",
+                   UserController.userController.findUserById);
+               app.post("/api/users",
+                   UserController.userController.createUser);
+               app.delete("/api/users/:uid",
+                   UserController.userController.deleteUser);
+
+           }
+           return UserController.userController;
+       }
+
+       private constructor() {
+       }
+
+       /**
+        * Retrieves all users from the database and returns an array of users.
+        * @param {Request} req Represents request from client
+        * @param {Response} res Represents response to client, including the
+        * body formatted as JSON arrays containing the user objects
+        */
+       findAllUsers = (req: Request, res: Response) =>
+           UserController.userDao.findAllUsers()
+               .then((users: User[]) => res.json(users));
+
+       /**
+        * Retrieves the user by their primary key
+        * @param {Request} req Represents request from client, including path
+        * parameter uid identifying the primary key of the user to be retrieved
+        * @param {Response} res Represents response to client, including the
+        * body formatted as JSON containing the user that matches the user ID
+        */
+       findUserById = (req: Request, res: Response) =>
+           UserController.userDao.findUserById(req.params.uid)
+               .then((user: User) => res.json(user));
+
+       /**
+        * Creates a new user instance
+        * @param {Request} req Represents request from client, including body
+        * containing the JSON object for the new user to be inserted in the
+        * database
+        * @param {Response} res Represents response to client, including the
+        * body formatted as JSON containing the new user that was inserted in the
+        * database
+        */
+       createUser = (req: Request, res: Response) =>
+           UserController.userDao.createUser(req.body)
+               .then((user: User) => res.json(user));
+
+
+
+       /**
+        * Removes a user instance from the database
+        * @param {Request} req Represents request from client, including path
+        * parameter uid identifying the primary key of the user to be removed
+        * @param {Response} res Represents response to client, including status
+        * on whether deleting a user was successful or not
+        */
+       deleteUser = (req: Request, res: Response) =>
+           UserController.userDao.deleteUser(req.params.uid)
+               .then((status) => res.send(status));
+
+
+
 }
