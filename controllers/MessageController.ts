@@ -38,11 +38,11 @@ export default class MessageController implements MessageControllerI {
         if (MessageController.messageController === null) {
             MessageController.messageController = new MessageController();
             app.post("/api/users/:uid1/messages/:uid2", MessageController.messageController.userMessagesUser);
-            app.get("/api/users/:uid/sentmessages", MessageController.messageController.findAllMessagesSentByUser);
-            app.get("/api/users/:uid/messages", MessageController.messageController.findAllMessagesReceivedByUser);
-            app.delete("/api/messages/:mid", MessageController.messageController.userDeletesMessage);
-            app.delete("/api/users/:uid/sentmessages", MessageController.messageController.userDeletesAllSentMessages);
             app.delete("/api/users/:uid/messages", MessageController.messageController.userDeletesAllReceivedMessages);
+            app.get("/api/users/:uid/sentmessages", MessageController.messageController.findAllMessagesSentByUser);
+            app.delete("/api/messages/:mid", MessageController.messageController.userDeletesMessage);
+            app.get("/api/users/:uid/messages", MessageController.messageController.findAllMessagesReceivedByUser);
+            app.delete("/api/users/:uid/sentmessages", MessageController.messageController.userDeletesAllSentMessages);
         }
         return MessageController.messageController;
     }

@@ -18,7 +18,7 @@ export default class UserController implements UserControllerI {
            if (UserController.userController === null) {
                UserController.userController = new UserController();
 
-               // for testing without postman. Not RESTful
+               //Not RESTful
                app.get("/api/users/create",
                    UserController.userController.createUser);
                app.get("/api/users/:uid/delete",
