@@ -23,8 +23,8 @@ import LikeControllerI from "../interfaces/LikeControllerI";
  * RESTful Web service API
  */
 export default class LikeController implements LikeControllerI {
-    private static likeDao: LikeDao = LikeDao.getInstance();
     private static likeController: LikeController | null = null;
+    private static likeDao: LikeDao = LikeDao.getLike();
 
     /**
      * Creates singleton controller instance
@@ -32,7 +32,7 @@ export default class LikeController implements LikeControllerI {
      * API
      * @return LikeController
      */
-    public static getInstance = (app: Express): LikeController => {
+    public static getLikeController = (app: Express): LikeController => {
         if (LikeController.likeController === null) {
             LikeController.likeController = new LikeController();
             app.get("/api/users/:uid/likes", LikeController.likeController.findAllTuitsLikedByUser);
@@ -43,8 +43,6 @@ export default class LikeController implements LikeControllerI {
         return LikeController.likeController;
     }
 
-    private constructor() {
-    }
 
     /**
      * Retrieves all users that liked a tuit from the database

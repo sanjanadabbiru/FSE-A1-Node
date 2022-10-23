@@ -18,14 +18,11 @@ export default class BookmarkDao implements BookmarkDaoI {
      * Creates singleton DAO instance
      * @returns BookmarkDao
      */
-    public static getInstance = (): BookmarkDao => {
+    public static getBookmark = (): BookmarkDao => {
         if (BookmarkDao.bookmarkDao === null) {
             BookmarkDao.bookmarkDao = new BookmarkDao();
         }
         return BookmarkDao.bookmarkDao;
-    }
-
-    private constructor() {
     }
 
     /**

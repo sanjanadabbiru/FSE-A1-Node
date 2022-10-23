@@ -5,8 +5,11 @@ import TuitControllerI from "../interfaces/TuitController";
 import Tuit from "../models/Tuit";
 
 export default class TuitController implements TuitControllerI {
-    private static tuitDao: TuitDao = TuitDao.getInstance();
-        private static tuitController: TuitController | null = null;
+
+    private static tuitController: TuitController | null = null;
+
+    private static tuitDao: TuitDao = TuitDao.getTuit();
+
 
         /**
          * Creates singleton controller instance
@@ -14,7 +17,7 @@ export default class TuitController implements TuitControllerI {
          * API
          * @return TuitController
          */
-        public static getInstance = (app: Express): TuitController => {
+        public static getTuitController = (app: Express): TuitController => {
             if (TuitController.tuitController === null) {
                 TuitController.tuitController = new TuitController();
                 app.get("/api/tuits", TuitController.tuitController.findAllTuits);
@@ -26,9 +29,6 @@ export default class TuitController implements TuitControllerI {
 
             }
             return TuitController.tuitController;
-        }
-
-        private constructor() {
         }
 
         /**

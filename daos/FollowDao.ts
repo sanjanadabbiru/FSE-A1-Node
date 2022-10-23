@@ -18,14 +18,11 @@ export default class FollowDao implements FollowDaoI {
      * Creates singleton DAO instance
      * @returns FollowDao
      */
-    public static getInstance = (): FollowDao => {
+    public static getFollow = (): FollowDao => {
         if (FollowDao.followDao === null) {
             FollowDao.followDao = new FollowDao();
         }
         return FollowDao.followDao;
-    }
-
-    private constructor() {
     }
 
     /**

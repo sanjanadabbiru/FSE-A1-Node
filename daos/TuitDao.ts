@@ -18,14 +18,11 @@ export default class TuitDao implements TuitDaoI {
      * Creates singleton DAO instance
      * @returns TuitDao
      */
-    public static getInstance = (): TuitDao => {
+    public static getTuit = (): TuitDao => {
         if (TuitDao.tuitDao === null) {
             TuitDao.tuitDao = new TuitDao();
         }
         return TuitDao.tuitDao;
-    }
-
-    private constructor() {
     }
 
     /**

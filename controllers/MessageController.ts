@@ -26,15 +26,15 @@ import Message from "../models/Message";
  * RESTful Web service API
  */
 export default class MessageController implements MessageControllerI {
-    private static messageDao: MessageDao = MessageDao.getInstance();
     private static messageController: MessageController | null = null;
+    private static messageDao: MessageDao = MessageDao.getMessage();
     /**
      * Creates singleton controller instance
      * @param {Express} app Express instance to declare the RESTful Web service
      * API
      * @return MessageController
      */
-    public static getInstance = (app: Express): MessageController => {
+    public static getMessageController = (app: Express): MessageController => {
         if (MessageController.messageController === null) {
             MessageController.messageController = new MessageController();
             app.post("/api/users/:uid1/messages/:uid2", MessageController.messageController.userMessagesUser);
@@ -73,16 +73,7 @@ export default class MessageController implements MessageControllerI {
         MessageController.messageDao.findAllMessagesSentByUser(req.params.uid)
             .then(messages => res.json(messages));
 
-    /**
-     * Retrieves all messages received by user from the database
-     * @param {Request} req Represents request from client, including the path
-     * parameter uid representing the user
-     * @param {Response} res Represents response to client, including the
-     * body formatted as JSON arrays containing the message objects
-     */
-    findAllMessagesReceivedByUser = (req: Request, res: Response) =>
-        MessageController.messageDao.findAllMessagesReceivedByUser(req.params.uid)
-            .then(messages => res.json(messages));
+
 
     /**
      * @param {Request} req Represents request from client, including the
@@ -115,4 +106,17 @@ export default class MessageController implements MessageControllerI {
     userDeletesAllReceivedMessages = (req: Request, res: Response) =>
         MessageController.messageDao.userDeletesAllReceivedMessages(req.params.uid)
             .then(status => res.send(status));
+
+
+    /**
+     * Retrieves all messages received by user from the database
+     * @param {Request} req Represents request from client, including the path
+     * parameter uid representing the user
+     * @param {Response} res Represents response to client, including the
+     * body formatted as JSON arrays containing the message objects
+     */
+    findAllMessagesReceivedByUser = (req: Request, res: Response) =>
+        MessageController.messageDao.findAllMessagesReceivedByUser(req.params.uid)
+            .then(messages => res.json(messages));
+
 };

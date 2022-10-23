@@ -25,7 +25,7 @@ import BookmarkControllerI from "../interfaces/BookmarkControllerI";
  * RESTful Web service API
  */
 export default class BookmarkController implements BookmarkControllerI {
-    private static bookmarkDao: BookmarkDao = BookmarkDao.getInstance();
+    private static bookmarkDao: BookmarkDao = BookmarkDao.getBookmark();
     private static bookmarkController: BookmarkController | null = null;
     /**
      * Creates singleton controller instance
@@ -33,20 +33,18 @@ export default class BookmarkController implements BookmarkControllerI {
      * API
      * @return BookmarkController
      */
-    public static getInstance = (app: Express): BookmarkController => {
+    public static getBookmarkController = (app: Express): BookmarkController => {
         if (BookmarkController.bookmarkController === null) {
             BookmarkController.bookmarkController = new BookmarkController();
+            app.delete("/api/users/:uid/bookmarks/:tid", BookmarkController.bookmarkController.userUnbookmarksTuit);
             app.get("/api/users/:uid/bookmarks", BookmarkController.bookmarkController.findAllTuitsBookmarkedByUser);
             app.get("/api/tuits/:tid/bookmarks", BookmarkController.bookmarkController.findAllUsersThatBookmarkedTuit);
             app.post("/api/users/:uid/bookmarks/:tid", BookmarkController.bookmarkController.userBookmarksTuit);
-            app.delete("/api/users/:uid/bookmarks/:tid", BookmarkController.bookmarkController.userUnbookmarksTuit);
             app.delete("/api/users/:uid/bookmarks/", BookmarkController.bookmarkController.userUnbookmarksAllTuits);
         }
         return BookmarkController.bookmarkController;
     }
 
-    private constructor() {
-    }
 
     /**
      * Retrieves all users that bookmarked a tuit from the database

@@ -18,14 +18,11 @@ export default class MessageDao implements MessageDaoI {
      * Creates singleton DAO instance
      * @returns MessageDao
      */
-    public static getInstance = (): MessageDao => {
+    public static getMessage = (): MessageDao => {
         if (MessageDao.messageDao === null) {
             MessageDao.messageDao = new MessageDao();
         }
         return MessageDao.messageDao;
-    }
-
-    private constructor() {
     }
 
 

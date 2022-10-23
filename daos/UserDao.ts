@@ -18,14 +18,11 @@ export default class UserDao implements UserDaoI {
      * Creates singleton DAO instance
      * @returns UserDao
      */
-    public static getInstance = (): UserDao => {
+    public static getUser = (): UserDao => {
         if (UserDao.userDao === null) {
             UserDao.userDao = new UserDao();
         }
         return UserDao.userDao;
-    }
-
-    private constructor() {
     }
 
     /**

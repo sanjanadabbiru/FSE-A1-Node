@@ -37,12 +37,12 @@ app.get('/hello', (req: Request, res: Response) =>
 // const tuitController = new TuitController(app,tuitDao);
 
 
-const userController = UserController.getInstance(app);
-const tuitController = TuitController.getInstance(app);
-const likesController = LikeController.getInstance(app);
-const followController = FollowController.getInstance(app);
-const bookmarkController = BookmarkController.getInstance(app);
-const messageController = MessageController.getInstance(app);
+const userController = UserController.getUserController(app);
+const tuitController = TuitController.getTuitController(app);
+const likesController = LikeController.getLikeController(app);
+const followController = FollowController.getFollowController(app);
+const bookmarkController = BookmarkController.getBookmarkController(app);
+const messageController = MessageController.getMessageController(app);
 /**
  * Start a server listening at port 4000 locally
  * but use environment variable PORT on Heroku if available.

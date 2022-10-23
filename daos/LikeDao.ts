@@ -18,15 +18,13 @@ export default class LikeDao implements LikeDaoI {
      * Creates singleton DAO instance
      * @returns LikeDao
      */
-    public static getInstance = (): LikeDao => {
+    public static getLike = (): LikeDao => {
         if (LikeDao.likeDao === null) {
             LikeDao.likeDao = new LikeDao();
         }
         return LikeDao.likeDao;
     }
 
-    private constructor() {
-    }
 
     /**
      * Uses LikeDao to retrieve all user documents from users collection that liked a Tuit

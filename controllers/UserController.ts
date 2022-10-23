@@ -5,8 +5,8 @@ import UserControllerI from "../interfaces/UserController";
 import User from "../models/User";
 
 export default class UserController implements UserControllerI {
-       private static userDao: UserDao = UserDao.getInstance();
        private static userController: UserController | null = null;
+       private static userDao: UserDao = UserDao.getUser();
 
        /**
         * Creates singleton controller instance
@@ -14,34 +14,21 @@ export default class UserController implements UserControllerI {
         * API
         * @returns UserController
         */
-       public static getInstance = (app: Express): UserController => {
+       public static getUserController = (app: Express): UserController => {
            if (UserController.userController === null) {
                UserController.userController = new UserController();
-
-               //Not RESTful
-               app.get("/api/users/create",
-                   UserController.userController.createUser);
-               app.get("/api/users/:uid/delete",
-                   UserController.userController.deleteUser);
-
+               app.get("/api/users/create", UserController.userController.createUser);
+               app.get("/api/users/:uid/delete", UserController.userController.deleteUser);
 
                // RESTful User Web service API
-               app.get("/api/users",
-                   UserController.userController.findAllUsers);
-               app.get("/api/users/:uid",
-                   UserController.userController.findUserById);
-               app.post("/api/users",
-                   UserController.userController.createUser);
-               app.put("/api/users/:uid",
-                   UserController.userController.updateUser);
-               app.delete("/api/users/:uid",
-                   UserController.userController.deleteUser);
+               app.get("/api/users", UserController.userController.findAllUsers);
+               app.post("/api/users",  UserController.userController.createUser);
+               app.put("/api/users/:uid", UserController.userController.updateUser);
+               app.get("/api/users/:uid", UserController.userController.findUserById);
+               app.delete("/api/users/:uid", UserController.userController.deleteUser);
 
            }
            return UserController.userController;
-       }
-
-       private constructor() {
        }
 
        /**
