@@ -6,16 +6,39 @@ Object.defineProperty(exports, "__esModule", { value: true });
 /**
  * @file Implements an Express Node HTTP server.
  */
+const UserController_1 = __importDefault(require("./controllers/UserController"));
+const TuitController_1 = __importDefault(require("./controllers/TuitController"));
+const LikeController_1 = __importDefault(require("./controllers/LikeController"));
+const FollowController_1 = __importDefault(require("./controllers/FollowController"));
+const BookmarkController_1 = __importDefault(require("./controllers/BookmarkController"));
+const MessageController_1 = __importDefault(require("./controllers/MessageController"));
 const express_1 = __importDefault(require("express"));
+const mongoose = require('mongoose');
+// mongoose.connect('mongodb+srv://SanjanaDabbiru:'+process.env.DB_PASSWORD+'@cluster0.1vqotnx.mongodb.net/tuiter');
+mongoose.connect(`mongodb+srv://SanjanaDabbiru:${process.env.DB_PASSWORD}@cluster0.1vqotnx.mongodb.net/tuiter`);
 var cors = require('cors');
+const bodyParser = require('body-parser');
 const app = (0, express_1.default)();
 app.use(cors());
 app.use(express_1.default.json());
+app.use(bodyParser.urlencoded({
+    extended: false
+}));
 app.get('/', (req, res) => res.send('Welcome to Foundation of Software Engineering!'));
 app.get('/hello', (req, res) => res.send('Welcome to Foundation of Software Engineering!'));
+// const userDao = new UserDao();
+// const tuitDao = new TuitDao();
+// const userController = new UserController(app,userDao);
+// const tuitController = new TuitController(app,tuitDao);
+const userController = UserController_1.default.getUserController(app);
+const tuitController = TuitController_1.default.getTuitController(app);
+const likesController = LikeController_1.default.getLikeController(app);
+const followController = FollowController_1.default.getFollowController(app);
+const bookmarkController = BookmarkController_1.default.getBookmarkController(app);
+const messageController = MessageController_1.default.getMessageController(app);
 /**
  * Start a server listening at port 4000 locally
  * but use environment variable PORT on Heroku if available.
  */
-const PORT = 4000;
+const PORT = 4003;
 app.listen(process.env.PORT || PORT);
