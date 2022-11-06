@@ -1,4 +1,5 @@
 import User from "./User";
+import { ObjectId } from "mongoose";
 
 /**
  * @class Tuit Implements RESTful Web service API for tuit resource.
@@ -7,6 +8,6 @@ import User from "./User";
 export default class Tuit {
     private tuit: string = '';
     private postedOn: Date = new Date();
-    private postedBy: User | null = null;
+    private postedBy: ObjectId;
 }
 
