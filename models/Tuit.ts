@@ -8,6 +8,6 @@ import { ObjectId } from "mongoose";
 export default class Tuit {
     private tuit: string = '';
     private postedOn: Date = new Date();
-    private postedBy: ObjectId;
+    private postedBy: ObjectId | null = null;
 }
 
