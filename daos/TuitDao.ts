@@ -30,8 +30,8 @@ export default class TuitDao implements TuitDaoI {
      * @returns Promise To be notified when the tuits are retrieved from
      * database
      */
-  findAllTuits = async (): Promise<Tuit[]> =>
-    TuitModel.find().populate("postedBy").exec();
+    findAllTuits = async (): Promise<Tuit[]> =>
+        TuitModel.find();
 
     /**
      * Uses TuitDao to retrieve all tuits documents from tuits collection that are created by user
@@ -78,6 +78,5 @@ export default class TuitDao implements TuitDaoI {
      */
     deleteTuit = async (tid: string): Promise<any> =>
         TuitModel.deleteOne({_id: tid});
-
 
 }
