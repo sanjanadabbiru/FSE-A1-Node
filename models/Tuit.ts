@@ -6,8 +6,8 @@ import { ObjectId } from "mongoose";
  * RESTful Web service API
  */
 export default class Tuit {
-    private tuit: string = '';
-    private postedOn: Date = new Date();
-    private postedBy: ObjectId | null = null;
+   private tuit: string = '';
+   private postedOn: Date = new Date();
+   private postedBy: User | null = null;
 }
 
