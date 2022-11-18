@@ -6,7 +6,7 @@ import User from "../models/User";
 
 export default class UserController implements UserControllerI {
        private static userController: UserController | null = null;
-       private static userDao: UserDao = UserDao.getUser();
+       static userDao: UserDao = UserDao.getUser();
 
        /**
         * Creates singleton controller instance
@@ -22,6 +22,7 @@ export default class UserController implements UserControllerI {
 
                // RESTful User Web service API
                app.get("/api/users", UserController.userController.findAllUsers);
+               app.get("/api/users/:username", UserController.userController.findUsersByUsername);
                app.post("/api/users",  UserController.userController.createUser);
                app.put("/api/users/:uid", UserController.userController.updateUser);
                app.get("/api/users/:uid", UserController.userController.findUserById);
@@ -40,6 +41,17 @@ export default class UserController implements UserControllerI {
        findAllUsers = (req: Request, res: Response) =>
            UserController.userDao.findAllUsers()
                .then((users: User[]) => res.json(users));
+
+    /**
+     * Finds a user instance from the database
+     * @param {Request} req Represents client request: includes path
+     * parameter uid - the primary key of the user to be removed.
+     * @param {Response} res Represents response to client: includes status
+     * on whether deletion successful or not.
+     */
+     findUsersByUsername = (req: Request, res:Response) =>
+     UserController.userDao.findUsersByUsername(req.params.username)
+         .then(status => res.json(status));
 
        /**
         * Retrieves the user by their primary key
@@ -61,9 +73,11 @@ export default class UserController implements UserControllerI {
         * body formatted as JSON containing the new user that was inserted in the
         * database
         */
-       createUser = (req: Request, res: Response) =>
+       createUser = (req: Request, res: Response) =>{
            UserController.userDao.createUser(req.body)
                .then((user: User) => res.json(user));
+
+       }
 
 
 

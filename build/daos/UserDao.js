@@ -33,6 +33,12 @@ class UserDao {
          */
         this.findUserById = (uid) => __awaiter(this, void 0, void 0, function* () { return UserModel_1.default.findById(uid); });
         /**
+         * Uses UserModel to retrieve single user document from users collection
+         * @param {string} uid User's primary key
+         * @returns Promise To be notified when user is retrieved from the database
+         */
+        this.findUserByUsername = (username) => __awaiter(this, void 0, void 0, function* () { return UserModel_1.default.find({ username }); });
+        /**
          * Inserts user instance into the database
          * @param {User} user Instance to be inserted into the database
          * @returns Promise To be notified when user is inserted into the database
@@ -44,6 +50,12 @@ class UserDao {
          * @returns Promise To be notified when user is removed from the database
          */
         this.deleteUser = (uid) => __awaiter(this, void 0, void 0, function* () { return UserModel_1.default.deleteOne({ _id: uid }); });
+        /**
+         * Removes user from the database.
+         * @param {string} u_name Primary key of user to be removed
+         * @returns Promise To be notified when user is removed from the database
+         */
+        this.deleteUsersByUsername = (username) => __awaiter(this, void 0, void 0, function* () { return UserModel_1.default.deleteOne({ username: username }); });
         /**
          * Updates user with new values in database
          * @param {string} uid Primary key of user to be modified

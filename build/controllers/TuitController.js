@@ -47,7 +47,7 @@ class TuitController {
          * body formatted as JSON containing the new tuit that was inserted in the
          * database
          */
-        this.createTuit = (req, res) => TuitController.tuitDao.createTuit(req.params.tid, req.body)
+        this.createTuit = (req, res) => TuitController.tuitDao.createTuit(req.params.uid, req.body)
             .then((tuit) => res.json(tuit));
         /**
          * @param {Request} req Represents request from client, including path

@@ -50,6 +50,9 @@ export default class LikeDao implements LikeDaoI {
             .populate("tuit")
             .exec();
 
+    countHowManyLikedTuit = async (tid: string) : Promise<any> =>
+        LikeModel.count({tuit: tid});
+
     /**
      * Uses LikeDao to insert like instance into the database
      * @param {string} uid User's primary key

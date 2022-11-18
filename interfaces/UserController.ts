@@ -17,4 +17,6 @@ export default interface UserControllerI {
 
     updateUser(req: Request, res: Response): void;
 
+    findUsersByUsername(req: Request, res: Response): void;
+
 }

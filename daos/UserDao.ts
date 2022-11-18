@@ -41,6 +41,15 @@ export default class UserDao implements UserDaoI {
     findUserById = async (uid: string): Promise<any> =>
         UserModel.findById(uid);
 
+   /**
+   * Find user instance from the database
+   * @param {string} username User's name on tuiter to be found
+   * @returns Promise To be notified when user is found
+   */
+    findUsersByUsername = async(username: string): Promise<any> =>
+         UserModel.findOne({username:username});
+
+
     /**
      * Inserts user instance into the database
      * @param {User} user Instance to be inserted into the database
