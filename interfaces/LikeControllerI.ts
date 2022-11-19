@@ -30,4 +30,5 @@ export default interface LikeControllerI {
      * database
      */
     userTogglesLikesTuit(req: Request, res: Response): void;
+
 };

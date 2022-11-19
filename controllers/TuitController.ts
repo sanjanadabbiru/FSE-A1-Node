@@ -60,16 +60,15 @@ export default class TuitController implements TuitControllerI {
          */
         findTuitsByUser = (req: Request, res: Response) => {
                 // @ts-ignore
-                let userId = req.params.uid === "me" && req.session['profile'] ?
+                let uId = req.params.uid === "me" && req.session['profile'] ?
                     // @ts-ignore
                     req.session['profile']._id : req.params.uid;
-                if (userId == "me") {
+                if (uId == "me") {
                     res.sendStatus(403);
                 } else {
-                    TuitController.tuitDao.findTuitsByUser(userId)
+                    TuitController.tuitDao.findTuitsByUser(uId)
                         .then((tuits: Tuit[]) => res.json(tuits));
                 }
-
         }
 
 

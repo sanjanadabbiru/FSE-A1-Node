@@ -8,6 +8,7 @@ import FollowController from "./controllers/FollowController";
 import BookmarkController from "./controllers/BookmarkController";
 import MessageController from "./controllers/MessageController";
 import AuthenticationController from "./controllers/AuthController";
+import DislikesController from "./controllers/DislikeController";
  import UserDao from './daos/UserDao';
  import TuitDao from './daos/TuitDao';
 import express from 'express';
@@ -20,7 +21,7 @@ const cors = require('cors')
 
 const app = express();
 const corsOptions ={
-    origin:'http://localhost:4005',
+    origin:true,
     credentials:true,            //access-control-allow-credentials:true
     optionSuccessStatus:200
 }
@@ -66,7 +67,7 @@ const likesController = LikeController.getLikeController(app);
 const followController = FollowController.getFollowController(app);
 const bookmarkController = BookmarkController.getBookmarkController(app);
 const messageController = MessageController.getMessageController(app);
-
+const dislikesController = DislikesController.getInstance(app);
 /**
  * Start a server listening at port 4000 locally
  * but use environment variable PORT on Heroku if available.
