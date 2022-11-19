@@ -41,9 +41,15 @@ class LikeDao {
         this.findAllTuitsLikedByUser = (uid) => __awaiter(this, void 0, void 0, function* () {
             return LikeModel_1.default
                 .find({ likedBy: uid })
-                .populate("tuit")
+                .populate({
+                path: "tuit",
+                populate: {
+                    path: "postedBy"
+                }
+            })
                 .exec();
         });
+        this.countHowManyLikedTuit = (tid) => __awaiter(this, void 0, void 0, function* () { return LikeModel_1.default.count({ tuit: tid }); });
         /**
          * Uses LikeDao to insert like instance into the database
          * @param {string} uid User's primary key

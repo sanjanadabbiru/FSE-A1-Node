@@ -29,8 +29,19 @@ class TuitController {
          * @param {Response} res Represents response to client, including the
          * body formatted as JSON arrays containing the tuit objects
          */
-        this.findTuitsByUser = (req, res) => TuitController.tuitDao.findTuitsByUser(req.params.uid)
-            .then((tuits) => res.json(tuits));
+        this.findTuitsByUser = (req, res) => {
+            // @ts-ignore
+            let userId = req.params.uid === "me" && req.session['profile'] ?
+                // @ts-ignore
+                req.session['profile']._id : req.params.uid;
+            if (userId == "me") {
+                res.sendStatus(403);
+            }
+            else {
+                TuitController.tuitDao.findTuitsByUser(userId)
+                    .then((tuits) => res.json(tuits));
+            }
+        };
         /**
          * @param {Request} req Represents request from client, including path
          * parameter tid identifying the primary key of the tuit to be retrieved
@@ -47,8 +58,19 @@ class TuitController {
          * body formatted as JSON containing the new tuit that was inserted in the
          * database
          */
-        this.createTuit = (req, res) => TuitController.tuitDao.createTuit(req.params.uid, req.body)
-            .then((tuit) => res.json(tuit));
+        this.createTuit = (req, res) => {
+            // @ts-ignore
+            let userId = req.params.uid === "me" && req.session['profile'] ?
+                // @ts-ignore
+                req.session['profile']._id : req.params.uid;
+            if (userId == "me" || req.body.tuit == "") {
+                res.sendStatus(403);
+            }
+            else {
+                TuitController.tuitDao.createTuit(userId, req.body)
+                    .then((tuit) => res.json(tuit));
+            }
+        };
         /**
          * @param {Request} req Represents request from client, including path
          * parameter tid identifying the primary key of the tuit to be removed

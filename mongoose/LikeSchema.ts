@@ -10,7 +10,7 @@ import Like from "../models/Like";
  * @property {Tuit} tuit Tuit being liked
  * @property {User} likedBy User liking the tuit
  */
-const LikeSchema = new mongoose.Schema<Like>({
+const LikeSchema = new mongoose.Schema({
     tuit: {type: Schema.Types.ObjectId, ref: "TuitModel"},
     likedBy: {type: Schema.Types.ObjectId, ref: "UserModel"},
 }, {collection: "likes"});

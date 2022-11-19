@@ -64,6 +64,15 @@ class TuitDao {
          * @returns Promise To be notified when tuit is removed from the database
          */
         this.deleteTuit = (tid) => __awaiter(this, void 0, void 0, function* () { return TuitModel_1.default.deleteOne({ _id: tid }); });
+        /**
+       * update a tuit's stats
+       * @param tid id ot the tuit
+       * @param newStats new stats of the tuit
+       * @returns
+       */
+        this.updateLikes = (tid, newStats) => __awaiter(this, void 0, void 0, function* () {
+            return TuitModel_1.default.updateOne({ _id: tid }, { $set: { stats: newStats } });
+        });
     }
 }
 exports.default = TuitDao;

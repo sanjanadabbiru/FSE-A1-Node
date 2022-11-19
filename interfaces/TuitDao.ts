@@ -3,6 +3,9 @@
  * @file Declares API for Tuit related data access object methods
  */
 import Tuit from "../models/Tuit";
+import TuitModel from "../mongoose/TuitModel";
+import User from "../models/User";
+import Stats from "../models/Stats";
 
 export default interface TuitDaoI {
     findAllTuits(): Promise<Tuit[]>;
@@ -16,5 +19,7 @@ export default interface TuitDaoI {
     deleteTuit(tid: string): Promise<any>;
 
     updateTuit(tid: string, tuit: Tuit): Promise<any>;
+
+    updateLikes(tid: string, stats: Stats): Promise<any>;
 
 }

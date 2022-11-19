@@ -13,18 +13,6 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const UserDao_1 = __importDefault(require("../daos/UserDao"));
-const express_1 = __importDefault(require("express"));
-const app = (0, express_1.default)();
-let session = {
-    secret: 'process.env.SECRET',
-    cookie: {
-        secure: false
-    }
-};
-if (process.env.ENV === 'PRODUCTION') {
-    app.set('trust proxy', 1); // trust first proxy
-    session.cookie.secure = true; // serve secure cookies
-}
 const bcrypt = require('bcrypt');
 const saltRounds = 10;
 const AuthenticationController = (app) => {
@@ -34,20 +22,23 @@ const AuthenticationController = (app) => {
         const password = newUser.password;
         const hash = yield bcrypt.hash(password, saltRounds);
         newUser.password = hash;
-        const existingUser = yield userDao.findUserByUsername(req.body.username);
+        const existingUser = yield userDao.findUsersByUsername(req.body.username);
         if (existingUser) {
             res.sendStatus(403);
             return;
         }
         else {
-            const insertedUser = yield userDao
-                .createUser(newUser);
+            const insertedUser = yield userDao.createUser(newUser);
+            // console.log("inserted user body",insertedUser)
             insertedUser.password = '';
+            // console.log("inserted user body after pass",insertedUser)
+            //@ts-ignore
             req.session['profile'] = insertedUser;
             res.json(insertedUser);
         }
     });
     const profile = (req, res) => {
+        //@ts-ignore
         const profile = req.session['profile'];
         if (profile) {
             profile.password = "";
@@ -58,6 +49,7 @@ const AuthenticationController = (app) => {
         }
     };
     const logout = (req, res) => {
+        //@ts-ignore
         req.session.destroy();
         res.sendStatus(200);
     };
@@ -65,16 +57,17 @@ const AuthenticationController = (app) => {
         const user = req.body;
         const username = user.username;
         const password = user.password;
+        console.log(password);
         const existingUser = yield userDao
-            .findUserByUsername(username);
+            .findUsersByUsername(username);
         if (!existingUser) {
             res.sendStatus(403);
             return;
         }
-        const match = yield bcrypt
-            .compare(password, existingUser.password);
+        const match = yield bcrypt.compare(password, existingUser.password);
         if (match) {
             existingUser.password = '*****';
+            //@ts-ignore
             req.session['profile'] = existingUser;
             res.json(existingUser);
         }

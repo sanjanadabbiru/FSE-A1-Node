@@ -30,7 +30,6 @@ let sess = {
        secure: false
    }
 }
-console.log(process.env.ENV)
 if (process.env.ENV === 'PRODUCTION') {
    app.set('trust proxy', 1) // trust first proxy
    sess.cookie.secure = true // serve secure cookies

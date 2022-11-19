@@ -15,6 +15,15 @@ class UserController {
         this.findAllUsers = (req, res) => UserController.userDao.findAllUsers()
             .then((users) => res.json(users));
         /**
+         * Finds a user instance from the database
+         * @param {Request} req Represents client request: includes path
+         * parameter uid - the primary key of the user to be removed.
+         * @param {Response} res Represents response to client: includes status
+         * on whether deletion successful or not.
+         */
+        this.findUsersByUsername = (req, res) => UserController.userDao.findUsersByUsername(req.params.username)
+            .then(status => res.json(status));
+        /**
          * Retrieves the user by their primary key
          * @param {Request} req Represents request from client, including path
          * parameter uid identifying the primary key of the user to be retrieved
@@ -32,8 +41,10 @@ class UserController {
          * body formatted as JSON containing the new user that was inserted in the
          * database
          */
-        this.createUser = (req, res) => UserController.userDao.createUser(req.body)
-            .then((user) => res.json(user));
+        this.createUser = (req, res) => {
+            UserController.userDao.createUser(req.body)
+                .then((user) => res.json(user));
+        };
         /**
          * Removes a user instance from the database
          * @param {Request} req Represents request from client, including path
@@ -79,6 +90,7 @@ UserController.getUserController = (app) => {
         app.get("/api/users/:uid/delete", UserController.userController.deleteUser);
         // RESTful User Web service API
         app.get("/api/users", UserController.userController.findAllUsers);
+        app.get("/api/users/:username", UserController.userController.findUsersByUsername);
         app.post("/api/users", UserController.userController.createUser);
         app.put("/api/users/:uid", UserController.userController.updateUser);
         app.get("/api/users/:uid", UserController.userController.findUserById);

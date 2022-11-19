@@ -6,7 +6,7 @@ import Location from "./Location";
  * RESTful Web service API
  */
 export default class User {
-   private username: string = '';
+   username: string = '';
    password: string = '';
    private firstName: string | null = null;
    private lastName: string | null = null;
