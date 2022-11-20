@@ -95,6 +95,25 @@ export default class DislikeController implements DislikeControllerI {
                 res.json(tuitsFromLikes);
             });
     }
+    /**
+     * @param {Request} req Represents request from client, including the
+     * path parameters uid and tid representing the user that unlikes a particular tuit
+     * @param {Response} res Represents response to client, including status
+     * on whether deleting the Dislike was successful or not
+     */
+
+        findUserDislikesTuit = (req: Request, res: Response) => {
+            const uid = req.params.uid;
+            const tid = req.params.tid;
+            // @ts-ignore
+            const profile = req.session['profile'];
+            //@ts-ignore
+            const userId = uid === "me" && profile ?
+                profile._id : uid;
+            //@ts-ignore
+            DislikeController.dislikeDao.findUserDislikesTuit(userId, tid)
+                .then(dislikes => res.json(dislikes));
+        }
 
     /**
      * @param {Request} req Represents request from client, including the
@@ -119,6 +138,12 @@ export default class DislikeController implements DislikeControllerI {
         DislikeController.dislikeDao.userUndislikesTuit(req.params.uid, req.params.tid)
             .then(status => res.send(status));
 
+    /**
+        * @param {Request} req Represents request from client, including the
+         * path parameters uid and tid representing the like being toggled
+         * @param {Response} res Represents response to client, including status
+         * on whether the dislikes have been updated
+    */
     userTogglesTuitDislikes = async (req: Request, res: Response) => {
     const uid = req.params.uid;
                 const tid = req.params.tid;
@@ -131,10 +156,12 @@ export default class DislikeController implements DislikeControllerI {
                         .findUserDislikesTuit(userId, tid);
                     const userAlreadyLikedTuit = await DislikeController.likeDao
                     .findUserLikesTuit(userId, tid);
+//                     console.log(userAlreadyLikedTuit);
                     const howManyDislikedTuit = await DislikeController.dislikeDao
                         .findTuitDislikesCount(tid);
                     const howManyLikedTuit = await DislikeController.likeDao
                     .countHowManyLikedTuit(tid);
+//                     console.log(howManyLikedTuit);
                     let tuit = await DislikeController.tuitDao.findTuitById(tid);
                     if (userAlreadyDislikedTuit) {
                     await DislikeController.dislikeDao.userUndislikesTuit(userId, tid);
@@ -149,25 +176,12 @@ export default class DislikeController implements DislikeControllerI {
                     };
 
                     await DislikeController.tuitDao.updateDislikes(tid, tuit.stats);
-                    console.log("dislike toggle",tuit.stats)
                     res.sendStatus(200);
                 } catch (e) {
                     res.sendStatus(404);
                 }
     }
 
-    findUserDislikesTuit = (req: Request, res: Response) => {
-        const uid = req.params.uid;
-        const tid = req.params.tid;
-        // @ts-ignore
-        const profile = req.session['profile'];
-        //@ts-ignore
-        const userId = uid === "me" && profile ?
-            profile._id : uid;
-        //@ts-ignore
-        DislikeController.dislikeDao.findUserDislikesTuit(userId, tid)
-            .then(dislikes => res.json(dislikes));
-    }
 
 
 };

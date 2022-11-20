@@ -20,9 +20,9 @@ const AuthenticationController = (app: Express) => {
       return;
     } else {
       const insertedUser = await userDao.createUser(newUser);
-      // console.log("inserted user body",insertedUser)
+      // console.log(insertedUser)
       insertedUser.password = '';
-      // console.log("inserted user body after pass",insertedUser)
+      // console.log(insertedUser.password)
       //@ts-ignore
       req.session['profile'] = insertedUser;
       res.json(insertedUser);

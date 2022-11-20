@@ -61,11 +61,6 @@
     * @returns Promise To be notified when the Dislikes are retrieved from
     * database
     */
-    //  userDislikesTuit = async (uid: string, tid: string): Promise<any> => {
-    //      DislikesModel.create({dislikedTuit: tid, dislikedBy: uid});
-    //  }
-
-
        userDislikesTuit = async (uid: string, tid: string): Promise<any> =>
         DislikesModel.create({dislikedTuit: tid, dislikedBy: uid});
 
@@ -93,7 +88,11 @@
      DislikesModel.findOne(
        {dislikedTuit: tid, dislikedBy: uid});
 
-
+ /**
+    * Uses DislikeModel to find all tuits disliked by user.
+    * @param {string} uid User id of user who disliked
+    * @returns Promise To be notified with the .
+    */
     findAllTuitsDislikedByUser = async (uid: string) =>
     DislikesModel
         .find({dislikedBy: uid})
